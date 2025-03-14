@@ -1,3 +1,4 @@
 {
-    "mongoURL":"mongodb+srv://jessay0901:VWInM1k5Nzx8qP7D@devconnector.jwcz7.mongodb.net/?retryWrites=true&w=majority&appName=DevConnector"
+    "mongoURL":"mongodb+srv://jessay0901:VWInM1k5Nzx8qP7D@devconnector.jwcz7.mongodb.net/?retryWrites=true&w=majority&appName=DevConnector",
+    "jwtSecret":"JessieSecretToken"
 }

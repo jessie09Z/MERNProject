@@ -3,6 +3,8 @@ import User from "../../models/User.js";
 import gravatar from "gravatar";
 import bcrypt from "bcryptjs";
 import { check, validationResult } from "express-validator";
+import jwt from "jsonwebtoken";
+import config from "config";
 
 const router = Router();
 
@@ -58,6 +60,22 @@ router.post(
 
             // Save the user to the database
             await user.save();
+            const paylod ={
+                user:{
+                    id:user.id,
+
+                }
+            };
+            jwt.sign(paylod, config.get("jwtSecret"),
+        {expiresIn: 360000},
+    (err, token)=>{
+
+        if(err){
+            throw err;
+        }
+        console.log(token);
+        res.json({token});
+    });
 
             // Return success message (consider sending a JWT token here as well)
             res.status(201).json({ msg: "User registered successfully" });
