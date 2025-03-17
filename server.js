@@ -7,7 +7,11 @@ import authRoute from './routes/api/auth.js'
 const app = express();
 
 //connect to db
-connectDB();
+connectDB().then(() => {
+    console.log("✅ MongoDB Connected...");
+}).catch((err) => {
+    console.error("❌ MongoDB Connection Error:", err);
+});
 //init middleware
 app.use(express.json({extended:false}));
 
