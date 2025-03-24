@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { SetAlert } from '../../actions/alert';
+import { setAlert } from '../../actions/alert';
 import { Link } from 'react-router-dom';
 
-const Register = ({ SetAlert }) => {
+const Register = ({ setAlert }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,9 +19,9 @@ const Register = ({ SetAlert }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(SetAlert);  // 检查是否有打印出 SetAlert 函数
+    console.log(setAlert, "check setAlert");  // 检查是否有打印出 SetAlert 函数
     if (password !== password2) {
-      SetAlert("Password does not match", "danger");
+      setAlert("Password does not match", "danger");
     } else {
       console.log("Success");
     }
@@ -88,7 +88,7 @@ const Register = ({ SetAlert }) => {
 };
 
 Register.propTypes = {
-  SetAlert: PropTypes.func.isRequired,  // 确保这里使用正确的 prop 名称
+  setAlert: PropTypes.func.isRequired,  // 确保这里使用正确的 prop 名称
 };
 
-export default connect(null, { SetAlert })(Register);
+export default connect(null, { setAlert })(Register);
