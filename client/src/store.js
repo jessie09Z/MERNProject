@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';  // 引入 Redux Toolkit
-import { thunk } from 'redux-thunk';
+import thunk from "redux-thunk";
 import rootReducer from './reducers';  // 引入你的根 reducer
 
 const store = configureStore({
