@@ -1,4 +1,7 @@
 {
     "mongoURL":"mongodb+srv://jessay0901:VWInM1k5Nzx8qP7D@devconnector.jwcz7.mongodb.net/?retryWrites=true&w=majority&appName=DevConnector",
-    "jwtSecret":"JessieSecretToken"
+    "jwtSecret":"JessieSecretToken",
+    "githubclientID":"Ov23lihxVvU2yPaJ5pD7",
+    "githubsecret":"91bb9a28b9c26624f489f81432c0a68996d7cb2a"
+
 }

@@ -4,7 +4,11 @@ import userRoute from './routes/api/users.js'
 import profileRoute from './routes/api/profile.js'
 import postsRoute from './routes/api/posts.js'
 import authRoute from './routes/api/auth.js'
+import cors from "cors"
+
 const app = express();
+app.use(cors());
+app.use(express.json());
 
 //connect to db
 connectDB().then(() => {
