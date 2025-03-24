@@ -1,12 +1,19 @@
+import {SET_ALERT, REMOVE_ALERT} from "../actions/types.js";
 const initialState =[{
-    id:1,
-    msg: " Please log in",
-    alertType: "success"
+    
 }]
 
 export default function (state = initialState, action){
-    switch(action.type){
-        
+    const {type, payload} = action;
+    switch(type){
+        case SET_ALERT:
+        return [...state, payload];
+        case REMOVE_ALERT:
+            return state.filter(alter=>alter.id !==payload);
+
+        default:
+            return state;
+
     }
 
 }
