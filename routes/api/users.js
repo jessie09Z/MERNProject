@@ -77,8 +77,7 @@ router.post(
         res.json({token});
     });
 
-            // Return success message (consider sending a JWT token here as well)
-            res.status(201).json({ msg: "User registered successfully" });
+           
         } catch (err) {
             console.error(err.message);
             res.status(500).send("Server error");
