@@ -19,7 +19,13 @@ if(localStorage.token){
 
 function App() {
   useEffect(()=>{
-    store.dispatch(loadUser());
+    if(localStorage.token) {
+      setAuthToken(localStorage.token);  // 这里依旧调用
+  } else {
+      // 如果没有 token，可以确保清除 token 设置
+      setAuthToken(null);  // 清除 token 设置
+  }
+  store.dispatch(loadUser());
   },[])
   return (
     <Provider store={store}> {/* 将 store 传递给 Provider */}
