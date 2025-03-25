@@ -91,8 +91,17 @@ export const login =({email, password})=> async dispatch=>{
    }
    
    //LOGOUT
-   export const logout = ()=> dispatch=>{
+ 
+
+export const logout = () => dispatch => {
+    // ✅ 清除 localStorage 中的 token
+    localStorage.removeItem("token");
+    
+    // ✅ 清除默认请求头中的 token
+    setAuthToken(null);
+
+    // ✅ 触发 Redux action，更新状态
     dispatch({
         type: LOGIN_OUT
-    })
-   }
+    });
+};

@@ -4,11 +4,14 @@ import { connect } from "react-redux";
 import { Fragment } from "react";
  import PropTypes from 'prop-types';
  import { logout } from "../../actions/auth";
+ 
 const Navbar = ({auth: {  isAuthenticated, loading}, logout}) => {
+
+ 
 const authLinks =(
   <ul>
   <li>
-  <a href="#!" onClick={logout}>Logout</a>
+  <a href="/#!" onClick={logout}>Logout</a>
   </li>
   </ul>
 )

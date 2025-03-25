@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
@@ -6,42 +6,46 @@ import Landing from "./components/layout/Landing";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Alert from "./components/layout/Alert";
+import Dashboard from "./components/dashboard/Dashboard";
+import PrivateRoute from "./components/routing/PrivateRoute";
 
-//Redux
-import { Provider } from 'react-redux';  // 用于提供 Redux store 给 React 组件
+// Redux
+import { Provider } from "react-redux";
 import store from "./store";
 import { loadUser } from "./actions/auth";
-import setAuthToken
- from "./utils/setAuthToken";
-if(localStorage.token){
+import setAuthToken from "./utils/setAuthToken";
+
+if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
 
 function App() {
-  useEffect(()=>{
-    if(localStorage.token) {
-      setAuthToken(localStorage.token);  // 这里依旧调用
-  } else {
-      // 如果没有 token，可以确保清除 token 设置
-      setAuthToken(null);  // 清除 token 设置
-  }
-  store.dispatch(loadUser());
-  },[])
+  useEffect(() => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    } else {
+      setAuthToken(null);
+    }
+    store.dispatch(loadUser());
+  }, []);
+
   return (
-    <Provider store={store}> {/* 将 store 传递给 Provider */}
+    <Provider store={store}>
       <Router>
         <>
           <Navbar />
-          <h1>Hello testing result</h1>
           <section className="container">
-            <Alert/>
+            <Alert />
             <Routes>
-              {/* Use element prop for Route */}
               <Route path="/" element={<Landing />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+
+              {/* ✅ 保护路由的正确写法 */}
+              <Route element={<PrivateRoute />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+              </Route>
             </Routes>
-           
           </section>
         </>
       </Router>
