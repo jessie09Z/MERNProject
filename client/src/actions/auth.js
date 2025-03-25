@@ -1,5 +1,5 @@
 import axios from "axios";
-import { REGISTER_FAIL , REGISTER_SUCCESS, USER_LOADED, AUTH_ERROR} from "./types";
+import { REGISTER_FAIL , REGISTER_SUCCESS, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS,LOGIN_FAIL} from "./types";
 import { setAlert } from "./alert";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -40,7 +40,8 @@ export const register =({name, email, password})=> async dispatch=>{
         type:REGISTER_SUCCESS,
         payload: res.data,
 
-    })
+    });
+    dispatch(loadUser());
  } catch (err) {
     const errors= err.response.data.errors;
     if(errors){
@@ -55,3 +56,37 @@ export const register =({name, email, password})=> async dispatch=>{
     })
  }
 }
+
+
+//Login User
+
+export const login =({email, password})=> async dispatch=>{
+    console.log("Login action triggered");  
+    const config ={
+       headers: {"Content-Type":"application/json"}
+    }
+    const body = JSON.stringify({ email, password});
+    try {
+       const res = await axios.post("/api/auth", body, config);
+       console.log("Login_Success action dispatched with payload:", res.data);  // 添加调试信息
+       dispatch({
+           type:LOGIN_SUCCESS,
+           payload: res.data,
+   
+       });
+       dispatch(loadUser());
+    } catch (err) {
+       const errors= err.response.data.errors;
+       if(errors){
+           errors.forEach(error=> {
+               dispatch(setAlert(error.msg, "danger"));
+   
+           });
+       }
+   
+       dispatch({
+           type: LOGIN_FAIL
+       })
+    }
+   }
+   

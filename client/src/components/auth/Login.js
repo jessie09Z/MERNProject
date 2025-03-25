@@ -1,9 +1,11 @@
 import React from 'react'
 import { Fragment } from 'react'
 import { useState } from 'react'
-import axios from 'axios'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-const Login = () => {
+import { login } from '../../actions/auth'
+const Login = ({login}) => {
 
     const [loginData, setLoginData] = useState(
         {"email":"",
@@ -17,17 +19,8 @@ const Login = () => {
    }
     const handleSubmit=async e=>{
         e.preventDefault();
-        const loginInfo ={email, password};
-        const body=JSON.stringify(loginInfo);
-        try {
-            const config ={  headers:{"Content-Type": "application/json"}
-          }
-          const res=  await axios.post("/api/auth",body, config);
-          console.log(res);
-        } catch (error) {
-            console.log("Unable to login");
-            
-        }
+       
+        login({email, password});
     }
   return (
     <Fragment>
@@ -63,4 +56,10 @@ const Login = () => {
   )
 }
 
-export default Login
+Login.propTypes = {
+  
+  login:PropTypes.func.isRequired,
+};
+
+
+export default connect(null, {login})(Login)
