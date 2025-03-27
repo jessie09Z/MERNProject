@@ -14,7 +14,7 @@ const {type, payload} =action;
 switch(type){
     case GET_PROFILE:
     case UPDATE_PROFILE:
-          return {
+     return {
             ...state,
             profile: payload,
             loading: false

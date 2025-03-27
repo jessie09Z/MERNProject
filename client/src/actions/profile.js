@@ -1,6 +1,6 @@
 import axios from "axios";
 import { setAlert } from "./alert";
-import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE } from "./types";
+import { CLEAR_PROFILE, GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
 //get curren users profile
@@ -149,4 +149,92 @@ export const addEducation=(formData, navigate )=> async dispatch=>{
             }
         });
     }
+}
+
+//delete Experience
+export const deleteExperience =(id)=> async dispatch=>{
+
+    try {
+        const res = await axios.delete(`/api/profile/experience/${id}`);
+        console.log(res, "delete experience")
+        dispatch({
+            type:UPDATE_PROFILE,
+            payload:res.data
+        });
+        dispatch(setAlert( "Experience deleted", "success"));
+
+        
+    } catch (error) {
+        const errors = error.response?.data?.errors;
+        if (errors) {
+            errors.forEach(err => dispatch(setAlert(err.msg, "danger")));
+        }
+
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: {
+                msg: error.response?.statusText || "Server Error",
+                status: error.response?.status || 500
+            }
+        });
+    }
+}
+
+//delete Education
+export const deleteEducation =(id)=> async dispatch=>{
+
+    try {
+        const res =await axios.delete(`/api/profile/education/${id}`);
+        console.log(res, "delete education")
+        dispatch({
+            type:UPDATE_PROFILE,
+            payload:res.data
+        });
+        dispatch(setAlert( "Education deleted", "success"));
+
+        
+    } catch (error) {
+        const errors = error.response?.data?.errors;
+        if (errors) {
+            errors.forEach(err => dispatch(setAlert(err.msg, "danger")));
+        }
+
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: {
+                msg: error.response?.statusText || "Server Error",
+                status: error.response?.status || 500
+            }
+        });
+    }
+}
+
+//delete  account and clear profile
+
+export const deleteAccount =()=> async dispatch=>{
+
+    if(window.confirm("Are you sure you want to delete your account?")){try {
+        const res =await axios.delete(`/api/profile`);
+        console.log(res, "delete education")
+        dispatch({
+            type:CLEAR_PROFILE,
+            
+        });
+        dispatch(setAlert( "Your account deleted, unable to restore"));
+
+        
+    } catch (error) {
+        const errors = error.response?.data?.errors;
+        if (errors) {
+            errors.forEach(err => dispatch(setAlert(err.msg, "danger")));
+        }
+
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: {
+                msg: error.response?.statusText || "Server Error",
+                status: error.response?.status || 500
+            }
+        });
+    }}
 }

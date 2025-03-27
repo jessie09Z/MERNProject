@@ -20,8 +20,8 @@ const Dashboard = ({getCurrentProfile, auth:{user},profile:{profile, loading}}) 
       </p>
       {profile !== null? <Fragment>
         <DashboardActions/>
-        <Experiences experience={profile.experience}/>
-        <Educations education={profile.education}/>
+        <Experiences experience={profile?.experience}/>
+        <Educations education={profile?.education}/>
          </Fragment>:
       <Fragment>
         <p>You have not yet setup a profile, please add some info</p>
