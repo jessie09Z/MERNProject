@@ -18,6 +18,7 @@ import CreateProfile from "./components/profile-forms/CreateProfile";
 import EditProfile from "./components/profile-forms/EditProfile";
 import AddExperience from "./components/profile-forms/AddExperience";
 import AddEducation from "./components/profile-forms/AddEducation";
+import Experiences from "./components/dashboard/Experiences";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -50,6 +51,7 @@ function App() {
                <Route path="/edit-profile" element={<EditProfile/>}/>
                <Route path="/add-experience" element={<AddExperience/>}/>
                <Route path="/add-education" element={<AddEducation/>}/>
+               <Route path="/experiences" element={<Experiences/>}/>
               </Route>
             </Routes>
           </section>
