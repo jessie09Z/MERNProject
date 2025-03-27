@@ -1,5 +1,5 @@
 import axios from "axios";
-import { REGISTER_FAIL , REGISTER_SUCCESS, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS,LOGIN_FAIL, LOGIN_OUT} from "./types";
+import { REGISTER_FAIL , REGISTER_SUCCESS, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS,LOGIN_FAIL, LOGIN_OUT, CLEAR_PROFILE} from "./types";
 import { setAlert } from "./alert";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -100,8 +100,12 @@ export const logout = () => dispatch => {
     // ✅ 清除默认请求头中的 token
     setAuthToken(null);
 
+    dispatch({
+        type: CLEAR_PROFILE
+    });
     // ✅ 触发 Redux action，更新状态
     dispatch({
         type: LOGIN_OUT
     });
+   
 };

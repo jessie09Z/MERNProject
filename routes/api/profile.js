@@ -6,6 +6,7 @@ import Profile from "../../models/Profile.js";
 import User from "../../models/User.js";
 import { check, validationResult } from "express-validator";
 const router =Router();
+import cors from "cors";
 
 
 
@@ -25,6 +26,7 @@ router.get("/me",auth, async (req, res)=>{
             return res.status(401).json({msg: "there is no profile for this user"});
         }
         res.json(profile);
+        console.log(profile, "profile information");
     }catch(err){
         console.error(err.message);
         res.status(500).send("Server Error");
