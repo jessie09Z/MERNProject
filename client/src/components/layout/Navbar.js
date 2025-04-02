@@ -4,12 +4,23 @@ import { connect } from "react-redux";
 import { Fragment } from "react";
  import PropTypes from 'prop-types';
  import { logout } from "../../actions/auth";
+ import Spinner from '../layout/Spinner';
  
 const Navbar = ({auth: {  isAuthenticated, loading}, logout}) => {
 
  
 const authLinks =(
   <ul>
+     <li>
+    <Link to="/profiles">
+   Developers
+   </Link>
+  </li>
+  <li>
+    <Link to="/posts">
+   Posts
+   </Link>
+  </li>
     <li>
     <Link to="/dashboard">
     <i className="fas fa-user"></i>{" "}
@@ -24,12 +35,12 @@ const authLinks =(
 )
 const guestLinks=(
   <ul>
-  <li>
+    <li>
     <Link to="/profiles">
-    <i className="fas fa-sign-out-alt"></i>{" "}
-    <span className="hide-sm">Logout</span>
+   Developers
    </Link>
   </li>
+ 
   <li>
     <Link to="/register">Register</Link>
   </li>

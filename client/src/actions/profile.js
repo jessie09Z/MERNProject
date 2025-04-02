@@ -1,6 +1,6 @@
 import axios from "axios";
 import { setAlert } from "./alert";
-import { CLEAR_PROFILE, GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE } from "./types";
+import { CLEAR_PROFILE, DELETE_ACCOUNT, GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE , GET_PROFILES,GET_REPOS,NO_REPOS} from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
 //get curren users profile
@@ -215,9 +215,9 @@ export const deleteAccount =()=> async dispatch=>{
 
     if(window.confirm("Are you sure you want to delete your account?")){try {
         const res =await axios.delete(`/api/profile`);
-        console.log(res, "delete education")
+        console.log(res, "delete Account")
         dispatch({
-            type:CLEAR_PROFILE,
+            type:DELETE_ACCOUNT,
             
         });
         dispatch(setAlert( "Your account deleted, unable to restore"));
@@ -238,3 +238,79 @@ export const deleteAccount =()=> async dispatch=>{
         });
     }}
 }
+
+// get Profiles
+export const getProfiles=()=> async dispatch=>{
+    dispatch({type:CLEAR_PROFILE});
+    try {
+        const res = await axios.get("/api/profile");
+        console.log(res, "delete Account")
+        dispatch({
+            type:GET_PROFILES,
+            payload:res.data
+            
+        });
+        dispatch(setAlert( "All profiles are loaded","success"));
+
+
+    } catch (error) {
+        const errors = error.response?.data?.errors;
+        if (errors) {
+            errors.forEach(err => dispatch(setAlert(err.msg, "danger")));
+        }
+
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: {
+                msg: error.response?.statusText || "Server Error",
+                status: error.response?.status || 500
+            }
+        });
+    }
+    }
+
+    // get Profile by id
+export const getProfileById=(user_id)=> async dispatch=>{
+   
+    try {
+        const res = await axios.get(`/api/profile/user/${user_id}`);
+        console.log(res, "get profile by ID")
+        dispatch({
+            type:GET_PROFILE,
+            payload:res.data
+            
+        });
+        dispatch(setAlert( "All profiles are loaded","success"));
+
+
+    } catch (error) {
+        const errors = error.response?.data?.errors;
+        if (errors) {
+            errors.forEach(err => dispatch(setAlert(err.msg, "danger")));
+        }
+
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: {
+                msg: error.response?.statusText || "Server Error",
+                status: error.response?.status || 500
+            }
+        });
+    }
+    }
+
+
+    export const getGithubRepos = (username) => async (dispatch) => {
+        try {
+          const res = await axios.get(`/api/profile/github/${username}`);
+      
+          dispatch({
+            type: GET_REPOS,
+            payload: res.data
+          });
+        } catch (err) {
+          dispatch({
+            type: NO_REPOS
+          });
+        }
+      };

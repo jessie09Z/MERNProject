@@ -1,12 +1,11 @@
-import express, { Router } from "express";
+import  { Router } from "express";
 import auth from "../../middleware/auth.js";
-import request from "request";
-import config from "config";
+import Post from "../../models/Post.js";
 import Profile from "../../models/Profile.js";
 import User from "../../models/User.js";
 import { check, validationResult } from "express-validator";
 const router =Router();
-import cors from "cors";
+
 
 
 
@@ -59,6 +58,7 @@ return res.status(401).json({errors:errors.array()});
         facebook,
         status,
         githubusername,
+        location,
         // spread the rest of the fields we don't need to check
         bio,
       } = req.body;
@@ -69,6 +69,7 @@ return res.status(401).json({errors:errors.array()});
       if(website) profileFields.website=website;
       if(bio) profileFields.bio=bio;
       if(status) profileFields.status=status;
+      if(location) profileFields.location=location;
       if(githubusername) profileFields.githubusername=githubusername;
       if (skills){
         profileFields.skills =skills.split(",").map(skill=>skill.trim());
@@ -147,6 +148,8 @@ router.get('/user/:user_id', async (req, res) => {
 // @access   Private
 router.delete('/',auth,  async (req, res) => {
     try {
+      // remove user posts.
+      await Post.deleteMany({user:req.user.id});
        await Profile.findOneAndDelete({user:req.user.id});
        await User.findOneAndDelete({_id:req.user.id});
       
@@ -235,7 +238,20 @@ router.delete("/experience/:exp_id", auth, async (req, res)=>{
   
 
 
-})
+});
+
+// @route    GET api/profile
+// @desc     Get all profiles
+// @access   Public
+router.get('/', async (req, res) => {
+  try {
+    const profiles = await Profile.find().populate('user', ['name', 'avatar']);
+    res.json(profiles);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 
    // @route   put api/profile/education
@@ -339,6 +355,24 @@ router.delete("/education/:exp_id", auth, async (req, res)=>{
       return res.status(404).json({ msg: 'No Github profile found' });
     }
   });*/
+
+  router.get('/github/:username', async (req, res) => {
+    try {
+      const uri = encodeURI(
+        `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`
+      );
+      const headers = {
+        'user-agent': 'node.js',
+        Authorization: `token ${config.get('githubToken')}`
+      };
+  
+      const gitHubResponse = await axios.get(uri, { headers });
+      return res.json(gitHubResponse.data);
+    } catch (err) {
+      console.error(err.message);
+      return res.status(404).json({ msg: 'No Github profile found' });
+    }
+  });
 
 
 export default router;

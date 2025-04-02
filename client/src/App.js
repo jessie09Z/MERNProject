@@ -19,6 +19,9 @@ import EditProfile from "./components/profile-forms/EditProfile";
 import AddExperience from "./components/profile-forms/AddExperience";
 import AddEducation from "./components/profile-forms/AddEducation";
 import Experiences from "./components/dashboard/Experiences";
+import Profiles from "./components/profiles/Profiles";
+import Profile from "./components/profile/Profile";
+import Posts from "./components/Posts/Posts";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -43,7 +46,8 @@ function App() {
               <Route path="/" element={<Landing />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-
+              <Route path="/profiles" element={<Profiles />} />
+              <Route path="/profile/:id" element={<Profile />} />
               {/* ✅ 保护路由的正确写法 */}
               <Route element={<PrivateRoute />}>
                 <Route path="/dashboard" element={<Dashboard />} />
@@ -52,6 +56,7 @@ function App() {
                <Route path="/add-experience" element={<AddExperience/>}/>
                <Route path="/add-education" element={<AddEducation/>}/>
                <Route path="/experiences" element={<Experiences/>}/>
+               <Route path="/posts" element={<Posts />} />
               </Route>
             </Routes>
           </section>
