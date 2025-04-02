@@ -5,8 +5,8 @@ import Moment from "react-moment"
 import { connect } from 'react-redux'
 import {addLikes, removeLikes, deletePost} from "../../actions/post"
 
-const PostItem = ({auth,addLikes, removeLikes, deletePost, post:{_id, text, name, avatar, user, likes,comments, date,}}) => {
-  const user_id =auth.user;
+const PostItem = ({auth,addLikes, removeLikes, deletePost, post:{_id, text, name, avatar, user, likes,comments, date,}, showActions}) => {
+  
   return (
     
     <div className="post bg-white p-1 my-1">
@@ -27,6 +27,7 @@ const PostItem = ({auth,addLikes, removeLikes, deletePost, post:{_id, text, name
              <p className="post-date">
               Post on  <Moment format="YYYY/MM/DD">{date}</Moment>
             </p>
+           {showActions && <Fragment>
             <button type="button" class="btn btn-light" onClick ={()=>addLikes(_id)}>
               <i className="fas fa-thumbs-up"></i>
             
@@ -47,12 +48,16 @@ const PostItem = ({auth,addLikes, removeLikes, deletePost, post:{_id, text, name
             <i className="fas fa-times"></i> Delete Post
           </button>))
             } 
+            </Fragment>}
            
           </div>
         </div>
   )
 }
 
+PostItem.defaultProps={
+  showActions:true
+}
 PostItem.propTypes = {
     post:PropTypes.object.isRequired,
     auth:PropTypes.object.isRequired,

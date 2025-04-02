@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADD_POST, DELETE_POST, GET_POSTS, POST_ERROR, SET_ALERT, UPDATE_LIKES } from "./types";
+import { ADD_POST, DELETE_POST, GET_POST, GET_POSTS, POST_ERROR, SET_ALERT, UPDATE_LIKES, ADD_COMMENT, REMOVE_COMMENT } from "./types";
 import {setAlert} from "./alert"
 // getPosts
 export const getPosts = () => async (dispatch) => {
@@ -98,6 +98,78 @@ export const addPost =(formData)=>async(dispatch)=>{
       payload:res.data
     })
     dispatch(setAlert("Post created", "success"));
+  } catch (error) {
+    
+    
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        msg: error.response?.statusText || "Server Error",
+        status: error.response?.status || 500,
+      },
+    });
+  }
+}
+
+//get post
+export const getPost =(post_id)=> async(dispatch)=>{
+  try {
+    const res = await axios.get(`/api/posts/${post_id}`);
+    console.log(res, "get new post");
+    dispatch({ type: GET_POST, payload: res.data });
+    dispatch(setAlert("get new post", "success"));
+    
+  } catch (error) {
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        msg: error.response?.statusText || "Server Error",
+        status: error.response?.status || 500,
+      },
+    });
+    
+  }
+}
+
+//add COMMENT
+export const addComment =(post_id,formData)=>async(dispatch)=>{
+  try {
+    const config = {
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  };
+    const res = await axios.post(`/api/posts/comments/${post_id}`, formData, config);
+    console.log(res, "create comment for post");
+    dispatch({
+      type:ADD_COMMENT,
+      payload:res.data
+    })
+    dispatch(setAlert("Comment created", "success"));
+  } catch (error) {
+    
+    
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        msg: error.response?.statusText || "Server Error",
+        status: error.response?.status || 500,
+      },
+    });
+  }
+}
+
+//delete COMMENT
+export const deleteComment =(post_id, comment_id)=>async(dispatch)=>{
+  try {
+   
+    const res = await axios.delete(`/api/posts/comments/${post_id}/${comment_id}`);
+    console.log(res, "delete comment");
+    dispatch({
+      type:REMOVE_COMMENT,
+      payload:comment_id
+    })
+    dispatch(setAlert("Comment DELETED", "success"));
   } catch (error) {
     
     

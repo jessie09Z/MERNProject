@@ -22,6 +22,7 @@ import Experiences from "./components/dashboard/Experiences";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
 import Posts from "./components/Posts/Posts";
+import Post from "./components/post/Post";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -52,6 +53,7 @@ function App() {
               <Route element={<PrivateRoute />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/create-profile" element={<CreateProfile />} />
+                <Route path="/post/:id" element={<Post />} />
                <Route path="/edit-profile" element={<EditProfile/>}/>
                <Route path="/add-experience" element={<AddExperience/>}/>
                <Route path="/add-education" element={<AddEducation/>}/>

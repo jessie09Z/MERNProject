@@ -72,7 +72,7 @@ router.get("/", auth, async(req,res)=>{
         res.json(posts);
         
     } catch (error) {
-        console.error(err.message);
+        console.error(error.message);
         res.status(500).send('Server Error');
     }
 })
@@ -211,13 +211,13 @@ router.post("/comments/:id", [auth,
         post.comments.unshift(comment);
          await post.save();
 
-       return res.json(post);
+       return res.json(post.comments);
     } catch (err) {
         console.error(err.message);
      return  res.status(500).send('Server Error');
     }
 
-    res.send("posts route");
+   
 
 })
 
